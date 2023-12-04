@@ -10,7 +10,7 @@ defineProps({
 
 <template>
   <RouterLink :to="{name:'concert-details', params: {id: concert.id}}">
-    <div class="card" style="width: 18rem;">
+    <div class="card h-100" style="width: 18rem;">
       <img :src="concert.img" class="card-img-top" :alt="concert.title">
       <div class="card-body">
         <h5 class="card-title">{{ concert.title }}</h5>

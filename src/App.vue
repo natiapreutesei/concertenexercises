@@ -12,10 +12,13 @@ import { RouterLink, RouterView } from 'vue-router'
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link to="/" class="nav-link active">Home</router-link>
+            <router-link to="/" class="nav-link active text-decoration-none">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/about" class="nav-link">About</router-link>
+            <router-link to="/about" class="nav-link text-decoration-none">About</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/organizers" class="nav-link text-decoration-none">About</router-link>
           </li>
         </ul>
       </div>
@@ -26,6 +29,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped>
+
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -35,7 +39,6 @@ header {
   display: block;
   margin: 0 auto 2rem;
 }
-
 nav {
   width: 100%;
   font-size: 12px;
