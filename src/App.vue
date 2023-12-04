@@ -18,7 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
             <router-link to="/about" class="nav-link text-decoration-none">About</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/organizers" class="nav-link text-decoration-none">About</router-link>
+            <router-link to="/organizers" class="nav-link text-decoration-none">Organizers</router-link>
           </li>
         </ul>
       </div>

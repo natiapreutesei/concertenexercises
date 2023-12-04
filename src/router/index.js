@@ -9,8 +9,9 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: ConcertenView
+      name: 'concerten',
+      component: ConcertenView,
+      props: route => ({ page: parseInt(route.query.page) || 1 })
     },
     {
       path: '/concert/:id',
