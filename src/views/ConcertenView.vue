@@ -5,35 +5,61 @@ import ConcertenService from "../../services/ConcertenService";
 //array of objects
 const concerten = ref(null);
 const isLastPage = ref(false)
-const concertenPerPagina = 2;
+const concertenPerPagina = ref(3); //initialized at 3
 const totaalAantalPaginas = ref(0);
+
+const totaalConcerten = ref(0);
+
 const props = defineProps({
   page: {
     type: Number
   }
 })
 //life cycle hooks
+const updateConcerten = () => {
+  ConcertenService.getConcerten(concertenPerPagina.value, props.page)
+      .then((response) => {
+        concerten.value = response.data;
+        isLastPage.value = response.data.length < concertenPerPagina.value;
+        totaalAantalPaginas.value = Math.ceil(totaalConcerten.value / concertenPerPagina.value);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+};
+
 onMounted(() => {
   ConcertenService.getAllConcerten()
       .then((response) => {
-      totaalAantalPaginas.value = Math.ceil(response.data.length / concertenPerPagina)
-  }).catch((error) => {
+        totaalAantalPaginas.value = Math.ceil(response.data.length / concertenPerPagina.value)
+        totaalConcerten.value = response.data.length
+      }).catch((error) => {
     console.log(error)
   });
   watchEffect(() => {
-    ConcertenService.getConcerten( concertenPerPagina , props.page)
-        .then((response) => {
-          concerten.value = response.data;
-          isLastPage.value = response.data.length < concertenPerPagina;
-        }).catch((error) => {
-      console.log(error)
-    })
+    updateConcerten();
   })
 })
+
+const changeNConcertenPerPagina  = (aantal) => {
+  concertenPerPagina.value = aantal;
+  updateConcerten();
+}
 </script>
 
 <template>
 <div class="home">
+  <div class="dropdown d-flex justify-content-center">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      #items to see
+    </button>
+    <ul class="dropdown-menu">
+      <li v-for="nConcert in totaalConcerten" :key="nConcert" >
+        <a class="text-decoration-none btn w-100" href="#" @click.prevent="changeNConcertenPerPagina(nConcert)"> {{nConcert}}</a>
+      </li>
+    </ul>
+  </div>
+
   <div id="wrapper" class="d-flex justify-content-evenly my-2">
     <ConcertCard v-for="concert in concerten" :key="concert.id" :concert="concert"/>
   </div>

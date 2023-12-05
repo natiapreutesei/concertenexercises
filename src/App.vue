@@ -1,5 +1,30 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView,} from 'vue-router'
+
+import {computed, onMounted, ref} from "vue";
+import ConcertenService from "../services/ConcertenService";
+
+const concerten = ref([]);
+
+onMounted(() => {
+  ConcertenService.getAllConcerten()
+      .then((response) => {
+        concerten.value = response.data;
+        console.log(concerten.value);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+});
+
+const input = ref("");
+
+const filteredList = computed(() => {
+  return concerten.value.filter((concert) =>
+      concert.title.toLowerCase().includes(input.value.toLowerCase())
+  );
+});
+
 </script>
 
 <template>
@@ -21,7 +46,15 @@ import { RouterLink, RouterView } from 'vue-router'
             <router-link to="/organizers" class="nav-link text-decoration-none">Organizers</router-link>
           </li>
         </ul>
+    </div>
+    </div>
+    <div class="input-group d-flex justify-content-end">
+      <div class="form-outline border rounded-start">
+        <input type="search" id="form1" class="form-control border border-0" placeholder="Search" v-model="input"/>
       </div>
+      <button type="button" class="btn btn-primary">
+        <router-link to="/search" class="nav-link text-decoration-none"> <i class="bi bi-search"></i></router-link>
+      </button>
     </div>
   </nav>
 
